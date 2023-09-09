@@ -1,7 +1,7 @@
 import React from 'react'
 import Nav from './Nav'
 
-const authToken = false
+const authToken = true
 
 const handleClick = ()=>{
     console.log('clicked')
