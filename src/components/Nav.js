@@ -3,7 +3,7 @@ import whitelogo from '../images/tinder_logo_white.png'
 import colorlogo from '../images/color-logo-tinder.png'
 
 
-const Nav = ({minimal,autotoken}) => {
+const Nav = ({minimal,authToken}) => {
 
  
   return (
@@ -11,7 +11,7 @@ const Nav = ({minimal,autotoken}) => {
      <div className='logo-container'>
           <img className='logo' src={minimal ? colorlogo:whitelogo}/>
      </div>
-     {!autotoken && !minimal && <button className="nav-button"> Log in </button>}
+     {!authToken && !minimal && <button className="nav-button"> Log in </button>}
     </nav>
   )
 }
