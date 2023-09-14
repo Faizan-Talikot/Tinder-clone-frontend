@@ -19,6 +19,7 @@ const AuthModal = ({setShowModal,isSignUp}) => {
             if(isSignUp && (password !== confirmPassword)){
                 setError('Passwords need to match!')
             }
+            setError(null)
             console.log("make a post request to datbase")
         } catch(error){
             console.log(error)
