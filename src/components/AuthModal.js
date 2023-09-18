@@ -1,11 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
+import axios from 'axios'
+import {useNavigate} from 'react-router-dom'
+import {useCookies} from 'react-cookie'
 
-const AuthModal = ({setShowModal,isSignUp}) => {
+const AuthModal = ({setShowModal,isSignUp,loading,setLoading }) => {
    const[email, setEmail] = useState(null)
    const[password, setPassword] = useState(null)
    const[confirmPassword, setConfirmPassword] = useState(null)
    const[error, setError] = useState(null)
+   const[cookies, setCookie, removeCookie] = useCookies(['user'])
+
+//   console.log(loading)
+//   setLoading(true)
+//   console.log(loading)
+  useEffect(()=>{
+
+  },[loading])
+   let navigate = useNavigate()
+
    console.log(email,password,confirmPassword)
 
 
@@ -13,14 +26,32 @@ const AuthModal = ({setShowModal,isSignUp}) => {
         setShowModal(false)
     }
 
-    const handleSubmit = (e)=>{
+    const handleSubmit = async (e)=>{
         e.preventDefault();
         try{
             if(isSignUp && (password !== confirmPassword)){
                 setError('Passwords need to match!')
+                return
             }
             setError(null)
-            console.log("make a post request to datbase")
+
+            setLoading(true)
+            const response = await axios.post(`http://localhost:8000/${isSignUp ? 'signup':'login'}`,{email,password})
+
+
+            setCookie('UserId',response.data.userId)
+            setCookie('AuthToken',response.data.token)
+
+            setLoading(false)
+
+            const success = response.status ===201
+           
+
+            if(success && isSignUp) navigate ('/onboarding')
+            if(success && !isSignUp) navigate ('/dashboard')
+
+            window.location.reload()
+           
         } catch(error){
             console.log(error)
         }
@@ -37,7 +68,7 @@ const AuthModal = ({setShowModal,isSignUp}) => {
               id="email"
               name="email"
               placeholder='email'
-              required="true"
+              required={true}
               onChange={(e) => setEmail(e.target.value)}
           />
           <input
@@ -45,7 +76,7 @@ const AuthModal = ({setShowModal,isSignUp}) => {
               id="password"
               name="password"
               placeholder='password'
-              required="true"
+              required={true}
               onChange={(e) => setPassword(e.target.value)}
           />
           {isSignUp && <input
@@ -53,7 +84,7 @@ const AuthModal = ({setShowModal,isSignUp}) => {
               id="password-check"
               name="password-check"
               placeholder='confirm password'
-              required="true"
+              required={true}
               onChange={(e) => setConfirmPassword(e.target.value)}
           />}
           <input className="secondary-button" type='submit'/>
