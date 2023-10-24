@@ -4,20 +4,23 @@ import Onboarding from './components/Onboarding';
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
 import { useCookies } from 'react-cookie';
 import { useState } from 'react';
+import { SocketProvider } from './components/SocketContext';
 
 const App = () => {
-  const [cookies,setCookie,removeCookie] = useCookies(['user'])
-  const [loading,setLoading] = useState(false)
+  const [cookies] = useCookies(['user'])
+  const [loading] = useState(false)
 
   const authToken = cookies.AuthToken
   return (
+    <SocketProvider>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home  loading={loading}/>}/>
-        {authToken && <Route path="/dashboard" element={<Dashboard />}/>}
-        {authToken && <Route path="/onboarding" element={<Onboarding loading={loading}/>}/>}
+        <Route path="/" element={<Home  loading={loading}/>}/> {/*route to home */}
+        {authToken && <Route path="/dashboard" element={<Dashboard />}/>}  {/*route to dashboard */}
+        {authToken && <Route path="/onboarding" element={<Onboarding />}/>} { /*route to onboarding */}
       </Routes>
     </BrowserRouter>
+    </SocketProvider>
   ); 
 }
 

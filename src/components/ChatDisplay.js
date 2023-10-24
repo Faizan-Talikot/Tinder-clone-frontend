@@ -5,6 +5,7 @@ import { useState } from 'react'
 import axios from 'axios'
 
 const ChatDisplay = ({user , clickedUser}) => {
+    /*eslint-disable */
   const userId = user?.user_id
     const clickedUserId = clickedUser?.user_id
     const [usersMessages, setUsersMessages] = useState(null)
@@ -35,7 +36,7 @@ const ChatDisplay = ({user , clickedUser}) => {
    useEffect(()=>{
     getUsersMessages()
     getClickedUsersMessages()
-   },[])
+   },[usersMessages,clickedUsersMessages])
 
   //  console.log(usersMessages)
 

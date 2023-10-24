@@ -3,6 +3,7 @@ import Nav from "./Nav";
 import AuthModal from "./AuthModal";
 import { useState } from "react";
 import { useCookies } from 'react-cookie'
+import PulseLoader from "react-spinners/PulseLoader"
 
 const Home = ({loading}) => {
   const [showModal,setShowModal] = useState(false);
@@ -27,7 +28,10 @@ const Home = ({loading}) => {
 
   return (
     <>
-    {load && <p>Loading...</p>}
+    {load && <div style={{marginTop: "13rem",fontSize: "5rem"}}>
+    {<PulseLoader color="#FE3072"  size={30}/>}
+    {<p style={{display:"inline",marginLeft:"62px"}}>Loading...</p>}
+    </div>}
     {!load &&
       <div className="overlay">
       <Nav
