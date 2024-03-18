@@ -36,7 +36,7 @@ const AuthModal = ({setShowModal,isSignUp,loading,setLoading }) => {
             setLoading(true)
             let response;
             try{
-                 response = await axios.post(`http://localhost:8000/${isSignUp ? 'signup':'login'}`,{email,password})
+                 response = await axios.post(`http://tinder-a-dating-app-for-college-students.onrender.com/${isSignUp ? 'signup':'login'}`,{email,password})
             }
             catch(err){
                  setLoading(false)
