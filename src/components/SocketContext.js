@@ -9,7 +9,7 @@ export const useSocket = () => {
 };
 
 export const SocketProvider = ({ children }) => {
-  const socket = io('https://tinder-a-dating-app-for-college-students.onrender.com');
+  const socket = io('http://localhost:8000');
 
   // You can add more socket setup here if needed
 
