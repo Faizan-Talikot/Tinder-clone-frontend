@@ -5,13 +5,14 @@ import swal from 'sweetalert'
 import axios from 'axios'
 import { useSocket } from './SocketContext'
 
-const ChatHeader = ({ user }) => {
+const ChatHeader = ({ user , toggleVisibility }) => {
   /*eslint-disable*/
   const socket = useSocket();
   let navigate = useNavigate()
-  const [cookies,removeCookie] = useCookies(['user'])
+  const [cookies,setCookies,removeCookie] = useCookies(['user'])
   const [isOnline] = useState(true);
   const userId = cookies?.UserId
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
  
   const logout = ()=>{
     swal({
@@ -22,6 +23,7 @@ const ChatHeader = ({ user }) => {
     })
     .then((willDelete) => {
       if (willDelete) {
+        console.log(cookies)
         console.log("demounting")
         try{
           console.log("inside try")
@@ -31,8 +33,8 @@ const ChatHeader = ({ user }) => {
         }
         removeCookie('UserId',cookies.UserId)
         removeCookie('AuthToken',cookies.AuthToken)
-       //  window.location.reload()
-        navigate ('/')
+        // window.location.reload()
+        navigate ('/')  
         
       }
     });
@@ -57,6 +59,9 @@ const ChatHeader = ({ user }) => {
         <h3>{user.first_name}</h3>
       </div>
       <i className='log-out-icon' onClick={logout}>⇦</i>
+      {/* <i className='hamburger-icon' onClick={toggleVisibility}>☰</i> */}
+      <i className={isMenuOpen ? 'close-icon' : 'hamburger-icon'} onClick={() => { toggleVisibility(); setIsMenuOpen(!isMenuOpen); }}>
+        {isMenuOpen ? '✕' : '☰'}</i>
     </div>  
   )
 }

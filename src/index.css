@@ -131,7 +131,8 @@ nav .logo-container .logo {
         rgba(0,0,0,0.65) 0%,
         rgba(0,0,0,0) 100%
 
-    ),url(images/6e9794bcedeecf5a8f8f41338a2a7345.webp)
+    ),url(images/6e9794bcedeecf5a8f8f41338a2a7345.webp);
+    background-size: cover;
 }
 
 .home{
@@ -518,6 +519,10 @@ input[type=number]::-webkit-outer-spin-button {
     align-items: center;
 }
 
+.chat-container .chat-container-header .hamburger-icon{
+    display: none;
+}
+
 .chat-container .option{
     border: none;
     background-color: rgb(255, 255, 255);
@@ -584,4 +589,99 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .chat-input textarea{
     resize: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* home page responsiveness */
+@media (max-width:640px) {
+    .primary-title{
+        font-size: 70px;
+    }
+    .auth-modal{
+        top: 140px;
+    }
+}
+
+@media (max-width:480px) {
+    .primary-title{
+        font-size: 40px;
+    }
+    .home{
+        margin-top: 35vh;
+    }
+    .auth-modal{
+        max-width: 300px;
+        height: 465px;
+        top: 205px;
+    }
+    .auth-modal p{
+        font-size: 13px;
+    }
+}
+
+
+/* dashboard page responsiveness */
+@media (max-width:920px) {
+   .dashboard{
+    flex-direction: column;
+   }
+   .chat-container{
+    width: auto;
+   }
+
+   .dashboard .swipe-container{
+    width: auto;
+   }
+
+   .chat-container .chat-container-header{
+    justify-content: flex-start;
+   }
+
+   .chat-container .chat-container-header .hamburger-icon{
+    display: initial;
+    margin-left: auto;
+    margin-right: 19px;
+    font-size: 35px;
+   }
+   .chat-container .chat-container-header .close-icon{
+    display: initial;
+    margin-left: auto;
+    margin-right: 19px;
+    font-size: 35px;
+   }
+
+   .chat-container .profile, .chat-container .log-out-icon{
+    flex:0 0 auto;
+   }
+
+   .img-container{
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+   }
+   .img-container h3{
+    font-size: 30px;
+   }
+   .log-out-icon{
+     font-size: 33px;
+   }
+   .matches-display{
+    height: 60vh;
+   }
 }

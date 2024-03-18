@@ -17,7 +17,7 @@ const ChatInput = ({ user, clickedUser, getUserMessages, getClickedUsersMessages
             message: textArea
         }
 
-        if(textArea!=''){
+        if(textArea!==''){
           try {
               setIsDisable(true)
               await axios.post('http://localhost:8000/message', { message })

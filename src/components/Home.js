@@ -8,23 +8,27 @@ import PulseLoader from "react-spinners/PulseLoader"
 const Home = ({loading}) => {
   const [showModal,setShowModal] = useState(false);
   const [isSignUp,setIsSignUp] = useState(true)
-  const [cookies,setCookie,removeCookie] = useCookies(['user'])
+  const [cookies,removeCookie] = useCookies(['user'])
   const [load,setLoading] = useState(loading)
 
   const authToken = cookies.AuthToken
   console.log(load,"of home")
 
   const handleClick = () => {
+    console.log("india")
     if (authToken) {
+      console.log('removing cookie')
       removeCookie('UserId', cookies.UserId)
       removeCookie('AuthToken', cookies.AuthToken)
-      window.location.reload()
+      // window.location.reload()
       return
   }
 
     setShowModal(true)
     setIsSignUp(true)
   };
+
+  
 
   return (
     <>

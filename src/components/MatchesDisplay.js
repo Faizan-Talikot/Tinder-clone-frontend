@@ -5,11 +5,11 @@ import { useCookies } from "react-cookie";
 import PulseLoader from "react-spinners/PulseLoader"
 import { useSocket } from './SocketContext';
 
-const MatchesDisplay = ({matches , setClickedUser , gotmatch1}) => {
+const MatchesDisplay = ({matches , setClickedUser , gotmatch1 , isVisible}) => {
   const [matchedProfiles, setMatchedProfiles] = useState([])
-  const [cookies, setCookie, removeCookie] = useCookies(null);
+  const [cookies] = useCookies(null);
   const[loading,setLoading] = useState(false)
-  const [gotmatch2,setGotMatch] = useState(gotmatch1)
+  const [gotMatch, setGotMatch] = useState(gotmatch1);
   const socket = useSocket()
   const [statusChanged, setStatusChanged] = useState(false);
 
@@ -17,12 +17,14 @@ const MatchesDisplay = ({matches , setClickedUser , gotmatch1}) => {
   const matchedUserIds = matches.map(({ user_id }) => user_id)
   const userId = cookies.UserId;
 
+  // eslint-disable-next-line
   useEffect(() => {
     getMatches();
 
     socket.on("userStatusChanged", (data) => {
       setStatusChanged(true); 
     });
+    // eslint-disable-next-line
   }, [matches, statusChanged]); 
 
   // useEffect(() => {
@@ -62,6 +64,7 @@ const MatchesDisplay = ({matches , setClickedUser , gotmatch1}) => {
       getMatches();
       setStatusChanged(false); 
     }
+    // eslint-disable-next-line
   }, [statusChanged]);
 
   const getStatusDotStyle = (status) => {
@@ -83,7 +86,7 @@ const MatchesDisplay = ({matches , setClickedUser , gotmatch1}) => {
 
   const filteredMatchedProfiles = matchedProfiles?.filter(
     (matchedProfile) =>
-      matchedProfile.matches.filter((profile) => profile.user_id == userId)
+      matchedProfile.matches.filter((profile) => profile.user_id === userId)
         .length > 0
   );
 
@@ -92,7 +95,7 @@ const MatchesDisplay = ({matches , setClickedUser , gotmatch1}) => {
   };
 
   return (
-    <div className="matches-display">
+    <div className="matches-display" style={{display: isVisible ? 'none' : 'block' }}>
       {loading && <div style={{textAlign:"center",fontSize: "5rem"}}>
           {<PulseLoader color="#FE3072"  size={15}/>}
           </div>}

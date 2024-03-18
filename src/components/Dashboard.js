@@ -23,6 +23,7 @@ const Dashboard = () => {
   const socket = useSocket();
   const [isOnline, setIsOnline] = useState(true);
   const [showDetails, setShowDetails] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   const userId = cookies.UserId;
 
@@ -161,13 +162,20 @@ const Dashboard = () => {
     setShowDetails(!showDetails)
   }
 
+  const toggleVisibility = () => {
+    setIsVisible(!isVisible);
+    console.log(isVisible)
+    console.log("toggle")
+  };
+
   return (
     <>
       <div className={`match-overlay ${gotmatch ? "visible" : ""}`}>
         <div className="match-message">
-          <button onClick={() => setGotMatch(false)} className="close-button">
-            Close
-          </button>
+        <button onClick={() => { setGotMatch(false); window.location.reload(); }} className="close-button">
+               Close
+        </button>
+
           <img src={i1} alt="" className="tinder-match" />
           <div className="user-images">
             {url && <img src={require(`../images/${url}`)} alt="" />}
@@ -178,8 +186,8 @@ const Dashboard = () => {
 
       {user && (
         <div className="dashboard">
-          <ChatContainer user={user} gotmatch={gotmatch} setGotMatch={setGotMatch} />
-          <div className="swipe-container">
+          <ChatContainer user={user} gotmatch={gotmatch} setGotMatch={setGotMatch} toggleVisibility={toggleVisibility} isVisible={isVisible}/>
+          <div className="swipe-container" style={{display: !isVisible ? 'none' : 'flex' }}>
             <div className="card-container" onClick={cardClick}>
               {sortedUsers?.reverse().map((genderedUser) => (
                 <TinderCard
