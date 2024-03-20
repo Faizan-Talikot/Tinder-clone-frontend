@@ -15,7 +15,7 @@ const ChatContainer = ({ user , gotmatch , toggleVisibility, isVisible}) => {
         <button className='option' disabled={!clickedUser}>Chat</button>
        </div >
        {!clickedUser && <MatchesDisplay matches={user.matches} setClickedUser={setClickedUser} gotmatch1={gotmatch1} isVisible={isVisible}/>}
-       {clickedUser && <ChatDisplay user={user} clickedUser={clickedUser}/>}
+       {clickedUser && <ChatDisplay user={user} clickedUser={clickedUser} isVisible={isVisible}/>}
     </div>
   )
 }

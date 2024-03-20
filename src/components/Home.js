@@ -8,7 +8,8 @@ import PulseLoader from "react-spinners/PulseLoader"
 const Home = ({loading}) => {
   const [showModal,setShowModal] = useState(false);
   const [isSignUp,setIsSignUp] = useState(true)
-  const [cookies,removeCookie] = useCookies(['user'])
+  // eslint-disable-next-line
+  const [cookies,setCookie,removeCookie] = useCookies(['user'])
   const [load,setLoading] = useState(loading)
 
   const authToken = cookies.AuthToken
@@ -20,7 +21,7 @@ const Home = ({loading}) => {
       console.log('removing cookie')
       removeCookie('UserId', cookies.UserId)
       removeCookie('AuthToken', cookies.AuthToken)
-      // window.location.reload()
+      window.location.reload()
       return
   }
 

@@ -4,7 +4,7 @@ import Chat from './Chat'
 import { useState } from 'react'
 import axios from 'axios'
 
-const ChatDisplay = ({user , clickedUser}) => {
+const ChatDisplay = ({user , clickedUser , isVisible}) => {
     /*eslint-disable */
   const userId = user?.user_id
     const clickedUserId = clickedUser?.user_id
@@ -54,6 +54,7 @@ const ChatDisplay = ({user , clickedUser}) => {
 // }, [usersMessages, clickedUsersMessages])
 
 
+   const currentUser = user;
    const messages = []
 
     usersMessages?.forEach(message => {
@@ -78,10 +79,10 @@ const ChatDisplay = ({user , clickedUser}) => {
 
     return (
         <>
-        {<Chat descendingOrderMessages={descendingOrderMessages}/>}
-     <ChatInput
+        {<Chat descendingOrderMessages={descendingOrderMessages} currentUser={currentUser} isVisible={isVisible}/>}
+     <ChatInput 
          user={user}
-         clickedUser={clickedUser} getUserMessages={getUsersMessages} getClickedUsersMessages={getClickedUsersMessages}/>
+         clickedUser={clickedUser} getUserMessages={getUsersMessages} getClickedUsersMessages={getClickedUsersMessages} isVisible={isVisible}/>
         </>
     )
 }

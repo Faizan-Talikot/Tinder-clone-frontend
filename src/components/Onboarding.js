@@ -206,11 +206,12 @@ const OnBoarding = () => {
       setRequiredImage(imageUrl); 
     }
   };
+
   
 
   return (
     <>
-      <Nav minimal={true} setShowModal={() => {}} showModal={false} />
+    <Nav minimal={true} setShowModal={() => {}} showModal={false} />
 
       {loading && <div style={{marginTop: "13rem",fontSize: "5rem"}}>
     {<PulseLoader color="#FE3072"  size={30}/>}

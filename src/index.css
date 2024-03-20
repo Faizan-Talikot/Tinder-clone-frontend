@@ -591,6 +591,9 @@ input[type=number]::-webkit-outer-spin-button {
     resize: none;
 }
 
+.sender {
+    flex-direction: row-reverse;
+  }
 
 
 
@@ -680,7 +683,19 @@ input[type=number]::-webkit-outer-spin-button {
    .matches-display{
     height: 60vh;
    }
+
+   .tinder-match {
+    height: 123px;
+    }
+    .user-images img {
+        height: 150px;
+        width: 150px;
+        border-radius: 130px;
+        overflow: hidden;
+    }
 }
+
+
 
 
 /* onboarding page responsiveness */

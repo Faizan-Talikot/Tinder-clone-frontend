@@ -24,26 +24,13 @@ const MatchesDisplay = ({matches , setClickedUser , gotmatch1 , isVisible}) => {
     socket.on("userStatusChanged", (data) => {
       setStatusChanged(true); 
     });
+    socket.on("userDisconnected", (data) => {
+      setStatusChanged(false); 
+    });
     // eslint-disable-next-line
   }, [matches, statusChanged]); 
 
-  // useEffect(() => {
-  //   getMatches();
-  
-    
-  //   socket.on('userStatusChanged', (data) => {
-      
-  //     const updatedProfiles = matchedProfiles.map((profile) =>
-  //       profile.user_id === data.userId ? { ...profile, status: data.status } : profile
-  //     );
-  //     setMatchedProfiles(updatedProfiles);
-  //   });
-  //   console.log(matchedProfiles,"dekh")
-  
-  // }, [matches]);
-  
-
-
+ 
   const getMatches = async () => {
     try {
       setLoading(true)
@@ -60,10 +47,10 @@ const MatchesDisplay = ({matches , setClickedUser , gotmatch1 , isVisible}) => {
   }
 
   useEffect(() => {
-    if (statusChanged) {
+  
       getMatches();
       setStatusChanged(false); 
-    }
+    
     // eslint-disable-next-line
   }, [statusChanged]);
 
@@ -72,7 +59,7 @@ const MatchesDisplay = ({matches , setClickedUser , gotmatch1 , isVisible}) => {
       width: "10px",
       height: "10px",
       borderRadius: "50%",
-      backgroundColor: status ? "#00da00" : "red",
+      backgroundColor: status ? "#00da00" : "",
       display: "inline-block",
       marginLeft: "-18px",
       marginTop: "20px",

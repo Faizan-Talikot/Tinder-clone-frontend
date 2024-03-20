@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 
-const ChatInput = ({ user, clickedUser, getUserMessages, getClickedUsersMessages }) => {
+const ChatInput = ({ user, clickedUser, getUserMessages, getClickedUsersMessages , isVisible }) => {
     const [textArea,setTextArea] = useState('')
     const [isdisable,setIsDisable] = useState(false)
     const userId = user?.user_id
@@ -31,7 +31,7 @@ const ChatInput = ({ user, clickedUser, getUserMessages, getClickedUsersMessages
         }
     }
   return (
-    <div className='chat-input'>
+    <div className='chat-input' style={{display: isVisible ? 'none' : '' }}>
       <textarea value={textArea} onChange={(e)=>setTextArea(e.target.value)}/>
       <button className='secondary-button' onClick={addMessage} disabled={isdisable}>Submit</button>
     </div>
