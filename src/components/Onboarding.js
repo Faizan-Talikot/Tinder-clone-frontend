@@ -17,6 +17,7 @@ const OnBoarding = () => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingImage, setLoadingImage] = useState(false);
+  const [requiredImage, setRequiredImage] = useState(null);
   const [selectedCollege, setSelectedCollege] = useState("KSI Institute"); // Track the selected college separately
   const [formData, setFormData] = useState({
     user_id: cookies.UserId,
@@ -151,6 +152,7 @@ const OnBoarding = () => {
           params: { userId },
         });
         setGotImage(response.data.url);
+        console.log("setgotimage",gotImage)
       } catch (err) {
         console.log(err);
         setLoadingImage(false);
@@ -185,14 +187,26 @@ const OnBoarding = () => {
   }, [image]);
 
   //handle onChange for image
-  const handleChange1 = (e) => {
-    console.log(e.target.files[0]);
+  // const handleChange1 = async(e) => {
+  //   console.log(e.target.files[0]);
 
-    setImage(e.target.files[0]);
-    console.log("yoyo", image);
+  //   setImage(e.target.files[0]);
+  //   console.log("yoyo", image);
+  // };
+  // let requiredImage;
+  // if (gotImage.length > 0) requiredImage = URL.createObjectURL(gotImage);
+
+  
+  const handleChange1 = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      const imageUrl = URL.createObjectURL(file); // Create object URL for the file
+      console.log("imageurl is",imageUrl)
+      setRequiredImage(imageUrl); 
+    }
   };
-  let requiredImage;
-  if (gotImage.length > 0) requiredImage = require(`../images/${gotImage}`);
+  
 
   return (
     <>

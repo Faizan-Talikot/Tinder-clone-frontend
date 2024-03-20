@@ -95,7 +95,7 @@ const MatchesDisplay = ({matches , setClickedUser , gotmatch1 , isVisible}) => {
   };
 
   return (
-    <div className="matches-display" style={{display: isVisible ? 'none' : 'block' }}>
+    <div className="matches-display" style={{display: isVisible ? 'none' : 'block'}}>
       {loading && <div style={{textAlign:"center",fontSize: "5rem"}}>
           {<PulseLoader color="#FE3072"  size={15}/>}
           </div>}

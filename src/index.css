@@ -600,14 +600,6 @@ input[type=number]::-webkit-outer-spin-button {
 
 
 
-
-
-
-
-
-
-
-
 /* home page responsiveness */
 @media (max-width:640px) {
     .primary-title{
@@ -670,6 +662,10 @@ input[type=number]::-webkit-outer-spin-button {
     flex:0 0 auto;
    }
 
+   .dashboard .swipe-container{
+    height: 85vh;
+   }
+
    .img-container{
     height: 50px;
     width: 50px;
@@ -684,4 +680,39 @@ input[type=number]::-webkit-outer-spin-button {
    .matches-display{
     height: 60vh;
    }
+}
+
+
+/* onboarding page responsiveness */
+@media (max-width:1045px) {
+    .onboarding form{
+        flex-direction: column;
+    }
+    .onboarding form section{
+        width: auto;
+    }
+    .custom-dropdown select {
+        appearance: none; /* Remove default dropdown styling */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-color: transparent;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      
+      .custom-dropdown select option {
+        font-size: 14px; /* Adjust font size */
+      }
+      
+      /* Style the dropdown arrow */
+      .custom-dropdown::after {
+        content: "\25BC"; /* Unicode character for the down arrow */
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        pointer-events: none;
+      }
 }

@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ChatContainer from "./ChatContainer";
 import TinderCard from "react-tinder-card";
-import { useState } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { debounce } from "lodash";
@@ -23,7 +22,8 @@ const Dashboard = () => {
   const socket = useSocket();
   const [isOnline, setIsOnline] = useState(true);
   const [showDetails, setShowDetails] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(window.innerWidth < 920);
+  const [isHamburgerClicked, setIsHamburgerClicked] = useState(false);
 
   const userId = cookies.UserId;
 
@@ -34,7 +34,6 @@ const Dashboard = () => {
       console.log(err);
     }
   };
-
 
   // getting user to fill all information
   const getUser = async () => {
@@ -139,7 +138,6 @@ const Dashboard = () => {
   const sortedUsers = [...sameCollegeUsers, ...otherCollegeUsers];
 
   const debouncedSwiped = debounce(async (direction, swipedUser) => {
-
     if (!swipedUserIds.includes(swipedUser) && direction === "right") {
       // Only update matches if the user hasn't been swiped right before
       await updateMatches(swipedUser);
@@ -147,34 +145,56 @@ const Dashboard = () => {
       setSwipedUserIds([...swipedUserIds, swipedUser]);
       setShowDetails(!showDetails)
     }
-
-    // setLastDirection(direction);
-    setShowDetails(!showDetails)
-
   }, 500); // Adjust debounce delay
 
   useEffect(() => {
     if (frontuser) ismatch(userId, frontuser);
   }, [frontuser]);
 
-
-  const cardClick = ()=>{
+  const cardClick = () => {
     setShowDetails(!showDetails)
-  }
+  };
 
   const toggleVisibility = () => {
     setIsVisible(!isVisible);
-    console.log(isVisible)
-    console.log("toggle")
+    setIsHamburgerClicked(true);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsVisible(window.innerWidth < 920);
+    };
+  
+    window.addEventListener('resize', handleResize);
+  
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+  
+
+  // Hide swipe container when hamburger clicked
+  useEffect(() => {
+    if (isHamburgerClicked) {
+      setIsVisible(false);
+    }
+  }, [isHamburgerClicked]);
+
+  useEffect(()=>{
+    if(gotmatch){
+      const audio = new Audio('/tinder-notification-sound.mp3')
+        audio.play()
+    }
+  },[gotmatch])
 
   return (
     <>
       <div className={`match-overlay ${gotmatch ? "visible" : ""}`}>
         <div className="match-message">
-        <button onClick={() => { setGotMatch(false); window.location.reload(); }} className="close-button">
-               Close
-        </button>
+          <button onClick={() => { setGotMatch(false); window.location.reload(); }} className="close-button">
+            Close
+          </button>
 
           <img src={i1} alt="" className="tinder-match" />
           <div className="user-images">
@@ -186,8 +206,8 @@ const Dashboard = () => {
 
       {user && (
         <div className="dashboard">
-          <ChatContainer user={user} gotmatch={gotmatch} setGotMatch={setGotMatch} toggleVisibility={toggleVisibility} isVisible={isVisible}/>
-          <div className="swipe-container" style={{display: !isVisible ? 'none' : 'flex' }}>
+          <ChatContainer user={user} gotmatch={gotmatch} setGotMatch={setGotMatch} toggleVisibility={toggleVisibility} isVisible={isVisible} />
+          <div className="swipe-container" style={{ display: isVisible || window.innerWidth >= 920 ? 'flex' : 'none' }}>
             <div className="card-container" onClick={cardClick}>
               {sortedUsers?.reverse().map((genderedUser) => (
                 <TinderCard
@@ -199,21 +219,19 @@ const Dashboard = () => {
                   onCardLeftScreen={""}
                   preventSwipe={["up", "down", "upright", "downright", "upleft", "downleft"]}
                 >
-                  
-      
                   <div style={{ backgroundImage: "url(" + require(`../images/${genderedUser?.url}`).replace(/\s/g, "") + ")" }} className="card">
-                  <div className={`additional-details ${showDetails ? 'open' : ''}`}>
-                    <div className="name">
-                    <h3>
-                        {genderedUser.first_name}, {genderedUser.age}
-                      </h3>
-                      <span>{genderedUser.college}</span>
+                    <div className={`additional-details ${showDetails ? 'open' : ''}`}>
+                      <div className="name">
+                        <h3>
+                          {genderedUser.first_name}, {genderedUser.age}
+                        </h3>
+                        <span>{genderedUser.college}</span>
+                      </div>
+                      <div className="about">
+                        <h2>About Me</h2>
+                        <span>{genderedUser.about}</span>
+                      </div>
                     </div>
-                    <div className="about">
-                      <h2>About Me</h2>
-                      <span>{genderedUser.about}</span>
-                    </div>
-                  </div>
                     <div className="card-info">
                       <h3>
                         {genderedUser.first_name}, {genderedUser.age}
@@ -224,7 +242,7 @@ const Dashboard = () => {
                 </TinderCard>
               ))}
             </div>
-            
+
           </div>
         </div>
       )}

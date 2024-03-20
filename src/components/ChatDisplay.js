@@ -40,6 +40,20 @@ const ChatDisplay = ({user , clickedUser}) => {
 
   //  console.log(usersMessages)
 
+  // Play notification sound when a new message is received
+//   useEffect(() => {
+//     const newMessageReceived = () => {
+//         // Assuming you have a notification sound file named 'notification.mp3' in the public folder
+//         const audio = new Audio('/tinder-notification-sound.mp3')
+//         audio.play()
+//     }
+
+//     if (usersMessages !== null || clickedUsersMessages !== null) {
+//         newMessageReceived()
+//     }
+// }, [usersMessages, clickedUsersMessages])
+
+
    const messages = []
 
     usersMessages?.forEach(message => {
