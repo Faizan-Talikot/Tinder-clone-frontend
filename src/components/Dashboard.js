@@ -6,6 +6,7 @@ import axios from "axios";
 import { debounce } from "lodash";
 import i1 from "../images/ogmatch1.png";
 import { useSocket } from "./SocketContext";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   /*eslint-disable */
@@ -24,6 +25,7 @@ const Dashboard = () => {
   const [showDetails, setShowDetails] = useState(false);
   const [isVisible, setIsVisible] = useState(window.innerWidth < 920);
   const [isHamburgerClicked, setIsHamburgerClicked] = useState(false);
+  let navigate = useNavigate();
 
   const userId = cookies.UserId;
 
@@ -143,7 +145,7 @@ const Dashboard = () => {
       await updateMatches(swipedUser);
       setFrontUser(swipedUser);
       setSwipedUserIds([...swipedUserIds, swipedUser]);
-      setShowDetails(!showDetails)
+      setShowDetails(!showDetails);
     }
   }, 500); // Adjust debounce delay
 
@@ -152,7 +154,7 @@ const Dashboard = () => {
   }, [frontuser]);
 
   const cardClick = () => {
-    setShowDetails(!showDetails)
+    setShowDetails(!showDetails);
   };
 
   const toggleVisibility = () => {
@@ -164,15 +166,14 @@ const Dashboard = () => {
     const handleResize = () => {
       setIsVisible(window.innerWidth < 920);
     };
-  
-    window.addEventListener('resize', handleResize);
-  
+
+    window.addEventListener("resize", handleResize);
+
     // Remove the event listener when the component unmounts
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
-  
 
   // Hide swipe container when hamburger clicked
   useEffect(() => {
@@ -181,18 +182,28 @@ const Dashboard = () => {
     }
   }, [isHamburgerClicked]);
 
-  useEffect(()=>{
-    if(gotmatch){
-      const audio = new Audio('/tinder-notification-sound.mp3')
-        audio.play()
+  useEffect(() => {
+    if (gotmatch) {
+      const audio = new Audio("/tinder-notification-sound.mp3");
+      audio.play();
     }
-  },[gotmatch])
+  }, [gotmatch]);
+
+  const handleNavigateToEvents = () => {
+    navigate("/Events"); // Navigate to the events page
+  };
 
   return (
     <>
       <div className={`match-overlay ${gotmatch ? "visible" : ""}`}>
         <div className="match-message">
-          <button onClick={() => { setGotMatch(false); window.location.reload(); }} className="close-button">
+          <button
+            onClick={() => {
+              setGotMatch(false);
+              window.location.reload();
+            }}
+            className="close-button"
+          >
             Close
           </button>
 
@@ -207,7 +218,7 @@ const Dashboard = () => {
       {user && (
         <div className="dashboard">
           <ChatContainer user={user} gotmatch={gotmatch} setGotMatch={setGotMatch} toggleVisibility={toggleVisibility} isVisible={isVisible} />
-          <div className="swipe-container" style={{ display: isVisible || window.innerWidth >= 920 ? 'flex' : 'none' }}>
+          <div className="swipe-container" style={{ display: isVisible || window.innerWidth >= 920 ? "flex" : "none" }}>
             <div className="card-container" onClick={cardClick}>
               {sortedUsers?.reverse().map((genderedUser) => (
                 <TinderCard
@@ -220,7 +231,7 @@ const Dashboard = () => {
                   preventSwipe={["up", "down", "upright", "downright", "upleft", "downleft"]}
                 >
                   <div style={{ backgroundImage: "url(" + require(`../images/${genderedUser?.url}`).replace(/\s/g, "") + ")" }} className="card">
-                    <div className={`additional-details ${showDetails ? 'open' : ''}`}>
+                    <div className={`additional-details ${showDetails ? "open" : ""}`}>
                       <div className="name">
                         <h3>
                           {genderedUser.first_name}, {genderedUser.age}
@@ -242,7 +253,9 @@ const Dashboard = () => {
                 </TinderCard>
               ))}
             </div>
-
+            <button onClick={handleNavigateToEvents} className="events-button">
+              Find Events
+            </button>
           </div>
         </div>
       )}

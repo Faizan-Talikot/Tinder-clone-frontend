@@ -33,6 +33,12 @@ const AuthModal = ({setShowModal,isSignUp,loading,setLoading }) => {
             }
             setError(null)
 
+            
+            if (email === 'admin@gmail.com' && password === 'admin') {
+                navigate('/admin'); // Navigate to the admin panel if the credentials match
+                return;
+              }
+
             setLoading(true)
             let response;
             try{
